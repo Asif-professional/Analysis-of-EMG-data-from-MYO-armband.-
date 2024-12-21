@@ -1,6 +1,6 @@
 # Analysis-of-EMG-data-from-MYO-armband.-
-#import libraries
-import numpy as np # linear algebra
+# import all libraries
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split,cross_val_score
 from sklearn.preprocessing import LabelEncoder
@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
-#import datasets
+# import datasets
 
 df0 = pd.read_csv("0.csv", header=None )
 df1 = pd.read_csv("1.csv", header=None )
@@ -17,6 +17,7 @@ df2 = pd.read_csv("2.csv", header=None )
 df3 = pd.read_csv("3.csv", header=None )
 df = pd.concat([df0,df1,df2,df3], axis = 0)
 df.head()
+
 # Find missing value
 df.isnull().sum()
 # shape of dataset
@@ -26,14 +27,16 @@ df.dtypes
 x = df.loc[:,0:63]
 y = df[64]
 
+# train
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
-
+# preprocessing 
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 x_train = pd.DataFrame(sc.fit_transform(x_train))
 x_test = pd.DataFrame(sc.transform(x_test))
 
+# models
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -52,6 +55,7 @@ sorted_models_scores=sorted(models_scores,key=lambda x:x[1],reverse=True)
 for model in sorted_models_scores:
 print("Accuracy Score: ",f'{model[0]}: {model[1]*100:.2f}')
 
+# classification 
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 print('Classification Report: \n', classification_report(y_test,y_pred))
